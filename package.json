@@ -13,9 +13,10 @@
       "type": "git"
    },
    "dependencies": {
-      "typeorm": "0.1.1",
+      "csvtojson": "^1.1.9",
+      "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
-      "mysql": "^2.14.1"
+      "typeorm": "0.1.1"
    },
    "scripts": {
       "start": "ts-node src/index.ts"

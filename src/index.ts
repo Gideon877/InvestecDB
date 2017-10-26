@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import { createConnection } from "typeorm";
 import { Converter } from "csvtojson";
 
-import {Limits} from "./entity/Limits";
-import {Relationships} from "./entity/Relationships";
+import { Limits } from "./entity/Limits";
+import { Relationships } from "./entity/Relationships";
 
 createConnection({
     type: "mysql",
@@ -19,19 +19,31 @@ createConnection({
     synchronize: true,
     logging: false
 }).then(async connection => {
+    var converter = new Converter({});
+    var manager = connection.getRepository(Relationships);
 
-    console.log("Inserting a new user into the database...");
-    // const user = new User();
-    // user.firstName = "Timber";
-    // user.lastName = "Saw";
-    // user.age = 25;
-    // await connection.manager.save(user);
-    // console.log("Saved a new user with id: " + user.id);
+    // Delete all table contents to avoid duplicates
+    await manager.query("DELETE FROM relationships;");
+    console.log("Deleted All Existing Data from Relationships table.");
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(Limits);
-    console.log("Loaded users: ", users);
+    converter.fromFile("/home/bootcamp/projects/InvestecDB/src/csv/Entity_Relationships.csv",
+        function(err, results) {
+            if (err) console.log(err);
 
-    console.log("Here you can setup and run express/koa/any other framework.");
+            let relationship = new Relationships();
+            console.log("Inserting new data into the Relationships table....");
 
+            for (let i = 0; i < results.length; i++) {
+                var entity = results[i];
+
+                relationship.Parent_Entity_Id = parseInt(entity["Parent Entity Id"]);
+                relationship.Parent_Entity_Name = entity["Parent Entity Name"];
+                relationship.Relationship_Type = entity["Relationship Type"];
+                relationship.Entity_Id = parseInt(entity["Entity Id"]);
+                relationship.Entity_Name = entity["Entity Name"];
+
+                manager.save(relationship);
+                console.log("Entity has been saved");
+            }
+        });
 }).catch(error => console.log(error));

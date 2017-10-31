@@ -14,7 +14,7 @@ import { getRepository } from 'typeorm';
 
 //Controllers (route handlers).
 import * as apiConfig from './common/api_config';
-import * as entityController from "./controllers/relationship";
+import * as entityController from "./controllers/limit";
 import * as homeController from "./controllers/home";
 
 import { Relationships } from "./entity/Relationships";
@@ -33,28 +33,29 @@ app.use(function(req, res, next) {
     next();
 });
 
-createConnection(apiConfig.dbOptions).then(async connection => {
-    console.log('Connected to DB');
-}).catch(error => console.log('TypeORM connection error: ', error));
 
+//  Entity Relationships
 app.get('/api/home', homeController.show);
-app.get('/api/home/children/:name', homeController.children);
+app.get('/api/home/:name', homeController.children);
 
-// Relationship Entity
-// app.get('/relationship',relationshipRoute.show);
 
 // Limit Entity
-// app.get('/limits',limitRoute.show);
+app.get('/api/limits',entityController.show);
+app.get('/api/limits/:id', entityController.getId);
 
 // Inserting into mysql database
 // app.get('/api/relationship', routesdb.relationship);
 // app.get('/api/limit', routesdb.limit);
 
 
+createConnection(apiConfig.dbOptions).then(async connection => {
+    console.log('Connected to MySQL DB');
+}).catch(error => console.log('TypeORM connection error: ', error));
+
 /**Start Express server */
 app.listen(app.get("port"), () => {
-    console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
-    console.log("  Press CTRL-C to stop\n");
+    console.log(("App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
+    console.log("Press CTRL-C to stop\n");
 });
 
 module.exports = app;

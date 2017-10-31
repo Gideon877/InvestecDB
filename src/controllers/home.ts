@@ -7,7 +7,7 @@ import {Relationships} from "../entity/Relationships";
 export let show = async (req: Request, res: Response) => {
 
 	const manager = getManager().getRepository(Relationships);
-	const data = await manager.find();
+	const data = await manager.query("SELECT COUNT(*), Parent_Entity_Name FROM relationships GROUP BY Parent_Entity_Name");
 
 	res.send(data);
 }

@@ -7,14 +7,21 @@
    "devDependencies": {
       "@types/node": "^8.0.29",
       "ts-node": "3.3.0",
-      "typescript": "2.5.2"
+      "typescript": "2.5.2",
+      "nodemon": "^1.11.0",
+      "typedoc": "^0.8.0"
    },
    "repository": {
       "type": "git"
    },
    "dependencies": {
+      "body-parser": "^1.17.1",
       "csvtojson": "^1.1.9",
-      "mysql": "^2.14.1",
+      "express": "^4.16.2",
+      "express-myconnection": "^1.0.4",
+      "express-session": "^1.14.2",
+      "mysql": "^2.5.3",
+      "prompt": "^0.2.14",
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.1.1"
    },

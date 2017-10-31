@@ -1,86 +1,60 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import { Converter } from "csvtojson";
+/*** Module dependencies. ***/
+"use strict";
 
-import { Limits } from "./entity/Limits";
+import 'reflect-metadata';
+import * as express from "express";
+import * as myConnection from 'express-myconnection';
+import { createConnection } from 'typeorm';
+import * as bodyParser from "body-parser";
+import * as path from "path";
+import * as mysql from 'mysql';
+
+import { Request, Response } from "express";
+import { getRepository } from 'typeorm';
+
+//Controllers (route handlers).
+import * as apiConfig from './common/api_config';
+import * as entityController from "./controllers/relationship";
+import * as homeController from "./controllers/home";
+
 import { Relationships } from "./entity/Relationships";
+// Create Express server.
+const app = express();
 
-createConnection({
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "1",
-    database: "InvestecDB",
-    entities: [
-        Relationships,
-        Limits
-    ],
-    synchronize: true,
-    logging: false
-}).then(async connection => {
-    var converter = new Converter({});
-    var manager = connection.getRepository(Relationships);
-    var limitManager = connection.getRepository(Limits);
+app.set("port", (process.env.PORT || 3015));
 
-    converter.fromFile("/home/bootcamp/projects/InvestecDB/src/csv/Entity_Relationships.csv", async (err, results) => {
-        await manager.query("DELETE FROM relationships;");
-        console.log("Deleted All Existing Data from Relationships table.");
+// parse application/json
+app.use(bodyParser.json())
 
-        if (err) console.log(err);
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
-        console.log("Inserting new data into the Relationships table....");
+createConnection(apiConfig.dbOptions).then(async connection => {
+    console.log('Connected to DB');
+}).catch(error => console.log('TypeORM connection error: ', error));
 
-        for (let i = 0; i < results.length; i++) {
-            let relationship = new Relationships(), entity = results[i];
+app.get('/api/home', homeController.show);
+app.get('/api/home/children/:name', homeController.children);
 
-            relationship.Parent_Entity_Id = parseInt(entity["Parent Entity Id"]);
-            relationship.Parent_Entity_Name = entity["Parent Entity Name"];
-            relationship.Relationship_Type = entity["Relationship Type"];
-            relationship.Entity_Id = parseInt(entity["Entity Id"]);
-            relationship.Entity_Name = entity["Entity Name"];
+// Relationship Entity
+// app.get('/relationship',relationshipRoute.show);
 
-            manager.save(relationship).then((result: any) => {
-                console.log("Result:", result)
-            }).catch(error => console.log('duplicates'));
-        }
-        console.log("Entity Relationship table data saved");
-    });
+// Limit Entity
+// app.get('/limits',limitRoute.show);
 
-    // Limits Table
-    converter.fromFile("/home/bootcamp/projects/InvestecDB/src/csv/Entity_Limits.csv", async (err: any, results: any) => {
-        await limitManager.query("DELETE FROM limits;");
-        console.log("Deleted All Existing Data from Limits table.");
-
-        if (err) console.log(err);
-
-        console.log("Inserting new data into the Limits table....");
-
-        for (let i = 0; i < results.length; i++) {
-            let limit = new Limits(), entity = results[i];
-
-            limit.Entity_Id = parseInt(entity["Entity Id"]);
-            limit.Risk_Taker_Group_Name = entity["Risk Taker Group Name"];
-            limit.Risk_Taker_Name = entity["Risk Taker Name"];
-            limit.Facility_Id = parseInt(entity["Facility Id"]);
-            limit.Facility_Type = entity["Facility Type"];
-            limit.Limit_Id = parseInt(entity["Limit Id"]);
-            limit.Limit_Type = entity["Limit Type"];
-            limit.Product = entity["Product"];
-            limit.Risk_Type = entity["Risk Type"];
-            limit.Currency = entity["Currency"];
-            limit.Exposure_Amount = parseFloat(entity["Exposure Amount"]);
-            limit.Total_Current_Limit = parseInt(entity["Total Current Limit"]);
-            limit.Total_Approved_Limit = parseInt(entity["Total Approved Limit"]);
-
-            console.log(limit);
-
-          //  limitManager.save(limit).then((result: any) => {
-           //     console.log("Result:", result)
-           // }).catch(error => console.log('Duplicates'));
-        }
-        console.log("Entity Limits table data saved.");
-    });
+// Inserting into mysql database
+// app.get('/api/relationship', routesdb.relationship);
+// app.get('/api/limit', routesdb.limit);
 
 
-}).catch(error => console.log(error));
+/**Start Express server */
+app.listen(app.get("port"), () => {
+    console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
+    console.log("  Press CTRL-C to stop\n");
+});
+
+module.exports = app;

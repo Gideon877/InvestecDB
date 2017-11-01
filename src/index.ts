@@ -21,7 +21,7 @@ import { Relationships } from "./entity/Relationships";
 // Create Express server.
 const app = express();
 
-app.set("port", (process.env.PORT || 3015));
+app.set("port", (process.env.PORT || 3016));
 
 // parse application/json
 app.use(bodyParser.json())
@@ -36,7 +36,7 @@ app.use(function(req, res, next) {
 
 //  Entity Relationships
 app.get('/api/home', homeController.show);
-app.get('/api/home/:name', homeController.children);
+app.get('/api/home/:id', homeController.children);
 
 
 // Limit Entity

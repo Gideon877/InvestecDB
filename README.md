@@ -1,27 +1,15 @@
 # Awesome Project Build with TypeORM
 
-Steps to run this project:
-
-<!-- 1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command -->
-<!-- Install Gulp tools and dev dependencies:
-
-```bash
-npm install -g gulp
-npm install
-``` -->
-
+###### Steps to run this project.
 
 ## Getting Started
 
 - Backend (Server side).
 
-1. Building
-2. Installation
-3. Create MySQL database
-4. Run the Application
-
+### 1. Building
+### 2. Installation
+### 3. Create MySQL database
+### 4. Run the Application
 
 ## Building
 
@@ -48,10 +36,10 @@ What things you need to install and how to install them?
 5. Package.json dependencies
 
 
-In order to build the TypeScript compiler, ensure that you have TypeScript, MySQL, TypeORM and NodeJS Installed.
-For the latest stable version:
+In order to run the app, ensure that you have TypeScript, MySQL, TypeORM and NodeJS Installed.
 
 #### TypeScript
+- For the latest stable version:
 
 ```bash
 npm install -g typescript

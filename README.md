@@ -2,37 +2,60 @@
 
 Steps to run this project:
 
-1. Run `npm i` command
+<!-- 1. Run `npm i` command
 2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
-# Investec_TypeORM_DB
+3. Run `npm start` command -->
+<!-- Install Gulp tools and dev dependencies:
 
-### Getting Started
+```bash
+npm install -g gulp
+npm install
+``` -->
+
+
+## Getting Started
 
 - Backend (Server side).
 
-Clone or download this [respository](https://github.com/Gideon877/InvestecDB.git) to your machine from GitHub.
+1. Building
+2. Installation
+3. Create MySQL database
+4. Run the Application
 
-#### Cloning
 
-- Go to the terminal and and copy and paste the following code;
+## Building
 
-  ```
-     $ git clone https://github.com/Gideon877/InvestecDB.git
-  ```
+First open the terminal/CLI copy and paste the following code:
+```bash
+git clone https://github.com/Gideon877/InvestecDB.git
+```
 
+Change to the InvestecDB directory:
+
+```bash
+cd InvestecDB
+```
+
+## Installation
 ### Prerequisites
 
-What things you need to install the software and how to install them?
+What things you need to install and how to install them?
 
-- NodeJS
-- MySQL
-- TypeORM
-- package.json dependencies
+1. TypeScript
+2. NodeJS
+3. MySQL
+4. TypeORM
+5. Package.json dependencies
 
 
-### Installing;
+In order to build the TypeScript compiler, ensure that you have TypeScript, MySQL, TypeORM and NodeJS Installed.
+For the latest stable version:
 
+#### TypeScript
+
+```bash
+npm install -g typescript
+```
 #### NodeJS
 
 Before you try to install NodeJS open a terminal window and try to run it by typing, node -v. If NodeJS is installed it should tell you which version you have. Alternatively the command will fail and you will need to install it.
@@ -48,19 +71,12 @@ Install database driver:
 How to [Install Mysql](https://www.digitalocean.com/community/tutorials/a-basic-mysql-tutorial).
 
 #### TypeORM
-First, install TypeORM globally:
-- Install npm package:
 
-``` npm install typeorm -g ```
+Install TypeORM globally:
 
-You need to install reflect-metadata shim:
-
-``` npm install reflect-metadata --save ```
-
-You may need to install node typings:
-
-``` npm install @types/node --save ```
-
+```bash
+npm install typeorm -g
+```
 
 #### Package.json dependencies
 
@@ -85,18 +101,53 @@ You may need to install node typings:
 }
 ```
 
-To install all dependencies required for the app to run, on the terminal navigate to the InvestecDB folder, and type `npm install` .
+
+You may need to install node typings:
+
+```bash
+npm install @types/node --save
+```
+To install all dependencies required for the app to run, copy and paste this command:
+```bash
+npm install
+```
 
 
-## Running the app locally
+## 3. Create MySQL database
 
-- In the command line, navigate to the InvestecDB directory. Once you are in the appropriate directory input this command
+Once you have MySQL installed on your droplet, you can access the MySQL shell by typing the following command into terminal:
 
-`$ tsc & nodemon`
+```bash
+mysql -u root -p
+```
+After entering the root MySQL password into the prompt, you will be able to start building your MySQL database.
 
-- The following message should be displayed `App is running at http://localhost:3016 in development mode`
+#### Creating a database.
 
-- Then open a new tab on your browser and type this `http://localhost:3016` and the app will open.
+```bash
+CREATE DATABASE InvestecDB;
+```
+To check if the database is created run this command:
+```bash
+SHOW DATABASES;
+```
+
+Once databse is created, edit ormconfig.json file and put your own database connection configuration options in there.
+
+#### 4. Run the Application
+
+Once you finish with configuration and all node modules are installed you can run your application:
+
+```bash
+tsc
+```
+then run
+```bash
+npm start
+```
+
+The following message should be displayed `App is running at http://localhost:3016 in development mode`
+Then open a new tab on your browser and type this `http://localhost:3016/api/home` and the app will open.
 
 ## Deployment
 
@@ -106,11 +157,11 @@ The app is not deployed yet.
 
 - [MySQL](https://www.mysql.com/) - Cloud MongoDB server
 - [NPM](https://www.npmjs.com) - Dependency Management
-- [Bootstrap](https://bootswatch.com/cerulean/) - The web framework used
+<!-- - [Bootstrap](https://bootswatch.com/cerulean/) - The web framework used -->
 
 ## Versioning
 
-`"version": "1.0.0",`
+`"version": "0.0.1",`
 
 ## Author
 

@@ -28,11 +28,11 @@ export let show = async (req: Request, res: Response) => {
             manager.save(relationship).then((result: any) => {
                 console.log("Saved with id:", result.id)
             }).catch(error => console.log('Duplicates!'));
-
         }
-        const data = await manager.query("SELECT COUNT(*) AS Children_Banks, Parent_Entity_Name FROM relationships GROUP BY Parent_Entity_Name");
-        res.send(data);
     })
+    const data = await manager.query("SELECT COUNT(*) AS Children_Banks, Parent_Entity_Name FROM relationships GROUP BY Parent_Entity_Name");
+    console.log("Data:",data)
+    res.send(data);
 }
 export let children = async (req: Request, res: Response) => {
     var id = req.params.id;

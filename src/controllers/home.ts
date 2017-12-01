@@ -8,7 +8,7 @@ export let show = async (req: Request, res: Response) => {
     var converter = new Converter({});
     const manager = getManager().getRepository(Relationships);
 
-    converter.fromFile("/home/bootcamp/projects/InvestecDB/src/csv/Entity_Relationships.csv", async (err: Error, results: any) => {
+    converter.fromFile("./src/csv/Entity_Relationships.csv", async (err: Error, results: any) => {
 
         if (err) console.log(err);
         // Delete Relationships table contents to avoid duplicates
@@ -30,8 +30,8 @@ export let show = async (req: Request, res: Response) => {
             }).catch(error => console.log('Duplicates!'));
         }
     })
-    const data = await manager.query("SELECT COUNT(*) AS Children_Banks, Parent_Entity_Name FROM relationships GROUP BY Parent_Entity_Name");
-    console.log("Data:",data)
+    const data = await manager.query("SELECT COUNT(*) AS Children_Banks, Parent_Entity_Name, Parent_Entity_Id FROM relationships GROUP BY Parent_Entity_Name, Parent_Entity_Id");
+    console.log("Home:",data)
     res.send(data);
 }
 export let children = async (req: Request, res: Response) => {
@@ -40,8 +40,8 @@ export let children = async (req: Request, res: Response) => {
 
     const manager = getManager().getRepository(Relationships);
     const data = await manager.find(
-        { "Entity_Id": id }
+        { "Parent_Entity_Name": id }
     );
-
+    console.log(data)
     res.send(data)
 }

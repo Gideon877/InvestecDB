@@ -10,6 +10,7 @@ import * as mysql from 'mysql';
 import * as apiConfig from './common/api_config';
 import * as entityController from "./controllers/limit";
 import * as homeController from "./controllers/home";
+import * as shareRoute from "./controllers/share";
 import { createConnection } from 'typeorm';
 import { Request, Response } from "express";
 import { getRepository } from 'typeorm';
@@ -34,6 +35,12 @@ app.get('/api/home/:id', homeController.children);
 // Limit Entity
 app.get('/api/limits',entityController.show);
 app.get('/api/limits/:id', entityController.getId);
+
+// Relationship_Type
+app.get('/api/share',shareRoute.share);
+app.get('/api/share/:type',shareRoute.type);
+
+
 
 // Inserting into mysql database
 // app.get('/api/relationship', routesdb.relationship);

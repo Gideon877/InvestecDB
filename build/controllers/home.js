@@ -41,7 +41,7 @@ exports.children = (req, res) => __awaiter(this, void 0, void 0, function* () {
     var id = req.params.id;
     console.log("Name:", id);
     const manager = typeorm_1.getManager().getRepository(Relationships_1.Relationships);
-    const data = yield manager.find({ "Parent_Entity_Id": id });
+    const data = yield manager.find({ "Parent_Entity_Name": id });
     console.log(data);
     res.send(data);
 });

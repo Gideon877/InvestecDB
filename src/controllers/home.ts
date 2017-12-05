@@ -40,7 +40,7 @@ export let children = async (req: Request, res: Response) => {
 
     const manager = getManager().getRepository(Relationships);
     const data = await manager.find(
-        { "Parent_Entity_Id": id }
+        { "Parent_Entity_Name": id }
     );
     console.log(data)
     res.send(data)

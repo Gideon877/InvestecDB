@@ -22,7 +22,6 @@
       "express-session": "^1.14.2",
       "mysql": "^2.5.3",
       "prompt": "^0.2.14",
-
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.1.1"
    },
